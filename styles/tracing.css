@@ -1,0 +1,262 @@
+:root {
+    --plot-size-px: 400px;
+    --dot-radius-px: 2px;
+    --dot-color: black;
+    --selected-cluster-class: selectedCluster;
+    --cluster-color: red;
+    --selected-cluster-animation-ms: 300ms;
+    --adorner-layer-class: adorner;
+    --adorner-thickness-px: 2px;
+    --adorner-padding-px: 2px;
+    --selectDot-class: selectedDot;
+    --selectDot-animation-duration-ms: 300ms;
+    --selectPos-class: selectedPos;
+    --selectPos-animation-duration-ms: 300ms;
+
+    --adorner-radius-px: calc(var(--dot-radius-px) + var(--adorner-padding-px) + var(--adorner-thickness-px)*0.5);
+
+    --container-padding-px: calc(var(--dot-radius-px) * 2.5);
+    --container-borderwidth-px: 1px;
+    --container-size-px: calc(var(--plot-size-px) + 2 * var(--container-padding-px) + 2 * var(--container-borderwidth-px));
+}
+
+/* hide marker for mandatory questions */
+.asterisk.pull-left {
+    display: none;
+}
+/* indicator that we are training */
+.training-indicator {
+    min-width: var(--container-size-px);
+    margin: 10px 0px;
+    font-size: x-large;
+    font-weight: bold;
+    color: #F00;
+    text-align: center;
+    display: none;
+}
+.training-indicator.enabled {
+    display: inline-block;
+}
+
+/* hide stuff that might be used for advancing to next question without answering this one */
+.answer-container {
+    display: none;
+}
+#ls-button-submit {
+    display: none;
+}
+#ls-button-submit.enabled {
+    display: revert;
+}
+
+
+
+/* plot size for both tasks */
+.PlotContainer {
+    display: inline-block;
+    padding: var(--container-padding-px);
+    border: solid var(--container-borderwidth-px) black;
+    border-radius: calc(var(--dot-radius-px) * 2);
+    height: var(--container-size-px);
+    width: var(--container-size-px);
+    background: white;
+}
+.PlotContainer svg {
+    overflow: visible;
+}
+
+.ButtonContainer {
+    margin-top: 1em;
+    min-width: var(--container-size-px);
+    overflow: visible;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    clear: both;
+    align-items: center;
+    justify-content: center;
+}
+.ButtonContainer button {
+    font-size: large;
+    display: none;
+    white-space: nowrap;
+    hyphens: manual;
+}
+.ButtonContainer button.sizer {
+    display: revert;
+    visibility: hidden;
+    width: 0px;
+    max-width: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    overflow: hidden;
+}
+.ButtonContainer button.enabled {
+    display: revert;
+}
+
+
+/* show highlighted dots */
+.PlotContainer svg circle,
+svg.sample circle {
+    fill: var(--dot-color);
+    stroke: none;
+    r: var(--dot-radius-px);
+}
+.PlotContainer svg g.selectedCluster circle,
+svg.sample g.selectedCluster circle {
+    fill: var(--cluster-color);
+    stroke: var(--cluster-color);
+    stroke-width: calc(var(--dot-radius-px) * 0.2);
+    transition: opacity var(--selected-cluster-animation-ms) linear;
+}
+svg.sample {
+    --size: calc(var(--dot-radius-px) * 2 + var(--dot-radius-px) * 0.2);
+    display: inline;
+    width: var(--size);
+    height: var(--size);
+}
+svg.sample circle {
+    cx: 50%;
+    cy: 50%;
+}
+
+
+
+
+/* -----------------
+ * FOR CLUSTER TASKS
+ * -----------------
+ */
+
+/* my own display of wrong/right for training purposes */
+.assessment-container {
+    min-width: var(--container-size-px);
+    margin-top: 0.5em;
+    display: inline-block;
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
+}
+.assessment-container > * {
+    display: none;
+}
+.assessment-container .sizer {
+    display: revert;
+    visibility: hidden;
+    width: 0px;
+    max-width: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    overflow: hidden;
+}
+.assessment-container .right {
+    color: #080;
+    text-shadow: 0 0 3px #5F5;
+}
+.assessment-container .wrong {
+    color: #F00;
+    text-shadow: 0 0 3px #F55;
+}
+.assessment-container .enabled {
+    display: revert;
+}
+
+
+
+
+
+
+
+
+/* -----------------
+ * FOR POINT TASKS
+ * -----------------
+ */
+textarea {
+    visibility: collapse;
+    display: none;
+}
+
+/* same size for all dots in the plot */
+.PlotContainer svg circle,
+svg.sample circle {
+    fill: var(--dot-color);
+    stroke: none;
+    r: var(--dot-radius-px);
+}
+
+/* highlighted dot from dataset */
+svg.sample.selectedDot {
+    --size: calc(var(--adorner-radius-px) * 2 + var(--adorner-thickness-px));
+    display: inline;
+    width: var(--size);
+    height: var(--size);
+    overflow: visible;
+}
+svg.sample.selectedDot circle {
+    cx: 50%;
+    cy: 50%;
+}
+.PlotContainer svg circle.selectedDot,
+svg.sample circle.selectedDot {
+    stroke: #F00;
+    stroke-width: var(--adorner-thickness-px);
+    fill: none;
+    r: var(--adorner-radius-px);
+}
+/* for animation */
+.PlotContainer svg circle.selectedDot {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation-name: selectedDot-animation;
+    animation-duration: var(--selectDot-animation-duration-ms);
+    animation-fill-mode: forwards;
+}
+@keyframes selectedDot-animation {
+    from {
+        transform: scale(4);
+        stroke-width: calc(0.25 * var(--adorner-thickness-px));
+    }
+    to {
+        transform: scale(1);
+        stroke-width: var(--adorner-thickness-px);
+    }
+}
+
+/* error line */
+.adorner line {
+    stroke: #F00;
+    stroke-width: var(--adorner-thickness-px);
+}
+
+/* position selected by user */
+.PlotContainer svg circle.selectedPos,
+svg.sample circle.selectedPos {
+    stroke: #08F;
+    stroke-width: var(--adorner-thickness-px);
+    fill: none;
+    r: var(--adorner-radius-px);
+}
+    /* for animation */
+.PlotContainer svg circle.selectedPos {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation-name: selectedPos-animation;
+    animation-duration: var(--selectPos-animation-duration-ms);
+    animation-fill-mode: forwards;
+}
+@keyframes selectedPos-animation {
+    from {
+        transform: scale(4);
+        stroke-width: calc(0.25 * var(--adorner-thickness-px));
+    }
+    to {
+        transform: scale(1);
+        stroke-width: var(--adorner-thickness-px);
+    }
+}

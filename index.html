@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Interactive Demo of Study: Evaluation of Animated Scatter Plot Transitions</title>
+        <link rel="stylesheet" type="text/css" href="./styles/local.css">
+        <link rel="stylesheet" type="text/css" href="./styles/tracing.css">
+        <script src="./scripts/tracing-options.js"></script>
+        <script src="./scripts/d3.js"></script>
+        <script src="./scripts/scattertrans.js"></script>
+        <script src="./scripts/transition-types.js"></script>
+        <script src="./scripts/tools.js"></script>
+        <script src="./data/autoMPG.js"></script>
+        <script src="./data/clusterBot.js"></script>
+        <script src="./data/clusterStudy.js"></script>
+        <script src="./data/clusterTrain.js"></script>
+        <script src="./data/pointBot.js"></script>
+        <script src="./scripts/datasets.js"></script>
+
+        <script src="./scripts/pointTrain.js"></script>
+        <script src="./scripts/pointStudy.js"></script>
+        <script src="./scripts/pointBot.js"></script>
+        <script src="./scripts/clusterTrain.js"></script>
+        <script src="./scripts/clusterStudy.js"></script>
+        <script src="./scripts/clusterBot.js"></script>
+        <script src="./scripts/study-protocol.js"></script>
+
+        <script src="./scripts/local.js"></script>
+        <script src="./scripts/pointtracing.js"></script>
+        <script src="./scripts/clustertracing.js"></script>
+    </head>
+    <body>
+        <div id="question{QID}">
+            <div id="navbar"></div>
+            <!--start-content-->
+            <div class="training-indicator">Training</div><br>
+            <div class="PlotContainer"><svg></svg></div><br />
+            <div class="ButtonContainer Point hidden">
+                <button type="hidden" class="sizer" disabled>&nbsp;</button>
+                <button class="AnimateBtn" type="button" disabled>▶️ Begin animation</button>
+                <button class="ContinueBtn" type="button" disabled>Next question ⏭️</button>
+                <button type="hidden" class="sizer" disabled>&nbsp;</button>
+            </div>
+            <div class="ButtonContainer Cluster hidden">
+                <button type="hidden" class="sizer" disabled>&nbsp;<br/>&nbsp;</button>
+                <button class="AnimateBtn" type="button" disabled>▶️ Begin animation</button>
+                <button type="button" class="myAnswerBtns" value="stay" disabled><b>Remained</b><br /><span style="font-size: smaller;">mostly as it was</span></button>
+                <button type="button" class="myAnswerBtns" value="merge" disabled><b>Merged</b><br /><span style="font-size: smaller;">into other cluster</span></button>
+                <button type="button" class="myAnswerBtns" value="split" disabled><b>Split</b><br /><span style="font-size: smaller;">into multiple clusters</span></button>
+                <button type="hidden" class="sizer" disabled>&nbsp;<br/>&nbsp;</button>
+            </div><br />
+            <div class="assessment-container"><span class="sizer">&nbsp;</span><span class="right">Correct!</span><span class="wrong">Wrong!</span></div>
+            <!--end-content-->
+            <!--start-simulation-of-lime-survey-->
+            <div>
+                <textarea id="answer{SGQ}" readonly disabled></textarea>
+            </div>
+            <div class="answer-container">
+                <div class="container-fluid">
+                    <div class="row ls-answers answers-list radio-list  form-inline " data-toggle="buttons" role="radiogroup" aria-labelledby="ls-question-text-{SGQ}">
+                        <div id="javatbd{SGQ}stay" class="bootstrap-buttons-div">
+                            <div class="button-item btn btn-primary">
+                                <input class="bootstrap-radio sr-only" type="radio" name="{SGQ}" id="answer{SGQ}stay" value="stay">
+                                <label for="answer{SGQ}"><b>Stayed</b><br /><span style="font-size: smaller;">mostly the same</span></label>
+                            </div>
+                        </div>
+                        <div id="javatbd{SGQ}merge" class="bootstrap-buttons-div">
+                            <div class="button-item btn btn-primary">
+                                <input class="bootstrap-radio sr-only" type="radio" name="{SGQ}" id="answer{SGQ}merge" value="merge">
+                                <label for="answer{SGQ}"><b>Merged</b><br /><span style="font-size: smaller;">into other cluster</span></label>
+                            </div>
+                        </div>
+                        <div id="javatbd{SGQ}split" class="bootstrap-buttons-div">
+                            <div class="button-item btn btn-primary">
+                                <input class="bootstrap-radio sr-only" type="radio" name="{SGQ}" id="answer{SGQ}split" value="split">
+                                <label for="answer{SGQ}"><b>Split</b><br /><span style="font-size: smaller;">into multiple clusters</span></label>
+                            </div>
+                        </div>
+                        <input id="java{SGQ}" disabled="disabled" type="hidden" value="" name="java{SGQ}">
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="ButtonContainer">
+                <button id="ls-button-previous" type="submit" value="moveprev" name="move" accesskey="p" class="   ls-move-btn ls-move-previous-btn action--ls-button-previous btn btn-lg btn-default " disabled="">
+                    Previous
+                </button>
+                <button id="ls-button-submit" type="submit" value="movenext" name="move" accesskey="n" class="   ls-move-btn ls-move-next-btn ls-move-submit-btn action--ls-button-submit  btn btn-lg btn-primary " disabled="">
+                    Next
+                </button>
+            </div>
+            <!--start-simulation-of-lime-survey-->
+        </div>
+    </body>
+</html>
